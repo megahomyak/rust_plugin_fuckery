@@ -11,7 +11,7 @@ pub fn run() {
     println!("Starting App");
 
     let plugin_api_wrapper: Container<PluginApi> =
-        unsafe { Container::load("plugins/libplugin1.so") }.unwrap();
+        unsafe { Container::load("../plugin1/target/debug/libplugin1.so") }.unwrap();
     plugin_api_wrapper.run();
 }
 

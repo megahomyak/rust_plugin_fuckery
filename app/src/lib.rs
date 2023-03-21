@@ -1,4 +1,7 @@
-use std::{any::Any, mem::ManuallyDrop, ops::Deref};
+use std::{
+    mem::ManuallyDrop,
+    ops::{Deref, DerefMut},
+};
 
 use libloading::Library;
 
@@ -12,7 +15,7 @@ macro_rules! export_plugin {
     };
 }
 
-pub trait Plugin: Any + Sync + Send {
+pub trait Plugin: Sync + Send {
     fn print(&self, message: &str);
 }
 
@@ -31,10 +34,16 @@ impl Drop for LoadedPlugin {
 }
 
 impl Deref for LoadedPlugin {
-    type Target = Box<dyn Plugin>;
+    type Target = dyn Plugin;
 
     fn deref(&self) -> &Self::Target {
-        &self.plugin
+        self.plugin.as_ref()
+    }
+}
+
+impl DerefMut for LoadedPlugin {
+    fn deref_mut(&mut self) -> &mut Self::Target {
+        self.plugin.as_mut()
     }
 }
 

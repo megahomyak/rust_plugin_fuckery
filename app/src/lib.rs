@@ -1,4 +1,4 @@
-use std::{any::Any, mem::ManuallyDrop};
+use std::{any::Any, mem::ManuallyDrop, ops::Deref};
 
 use libloading::Library;
 
@@ -30,9 +30,11 @@ impl Drop for LoadedPlugin {
     }
 }
 
-impl Plugin for LoadedPlugin {
-    fn print(&self, message: &str) {
-        self.plugin.print(message)
+impl Deref for LoadedPlugin {
+    type Target = Box<dyn Plugin>;
+
+    fn deref(&self) -> &Self::Target {
+        &self.plugin
     }
 }
 
@@ -45,16 +47,16 @@ pub mod plugin {
 
     #[derive(Debug)]
     pub enum LoadingError {
-        LibraryNotFound,
-        InterfaceGetterNotFound,
+        OpeningError(libloading::Error),
+        InterfaceGettingError(libloading::Error),
     }
 
     pub fn load<P: AsRef<Path>>(path: P) -> Result<LoadedPlugin, LoadingError> {
         let library =
-            unsafe { Library::new(path.as_ref()) }.map_err(|_| LoadingError::LibraryNotFound)?;
+            unsafe { Library::new(path.as_ref()) }.map_err(|e| LoadingError::OpeningError(e))?;
         let get_interface: Symbol<fn() -> *mut dyn Plugin> =
             unsafe { library.get(b"get_interface") }
-                .map_err(|_| LoadingError::InterfaceGetterNotFound)?;
+                .map_err(|e| LoadingError::InterfaceGettingError(e))?;
         let plugin = unsafe { Box::from_raw(get_interface()) };
         Ok(LoadedPlugin {
             plugin: ManuallyDrop::new(plugin),

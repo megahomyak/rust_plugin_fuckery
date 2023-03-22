@@ -1,4 +1,4 @@
 fn main() {
-    let plugin = app::plugin::load("plugins/libplugin1.so").unwrap();
+    let plugin = app::load_plugin("plugins/libplugin1.so").unwrap();
     plugin.print("hello");
 }

@@ -6,4 +6,4 @@ impl app::Plugin for Plugin {
     }
 }
 
-app::export_plugin!(Plugin);
+pluginator::plugin_implementation!(app::Plugin, Plugin);

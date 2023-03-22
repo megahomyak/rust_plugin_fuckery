@@ -6,7 +6,7 @@ version = 3
 name = "app"
 version = "0.1.0"
 dependencies = [
- "libloading",
+ "pluginator",
 ]
 
 [[package]]
@@ -23,6 +23,13 @@ checksum = "b67380fd3b2fbe7527a606e18729d21c6f3951633d0500574c4dc22d2d638b9f"
 dependencies = [
  "cfg-if",
  "winapi",
+]
+
+[[package]]
+name = "pluginator"
+version = "0.1.0"
+dependencies = [
+ "libloading",
 ]
 
 [[package]]

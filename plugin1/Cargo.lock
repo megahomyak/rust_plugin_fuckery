@@ -6,7 +6,7 @@ version = 3
 name = "app"
 version = "0.1.0"
 dependencies = [
- "libloading",
+ "pluginator",
 ]
 
 [[package]]
@@ -30,6 +30,14 @@ name = "plugin1"
 version = "0.1.0"
 dependencies = [
  "app",
+ "pluginator",
+]
+
+[[package]]
+name = "pluginator"
+version = "0.1.0"
+dependencies = [
+ "libloading",
 ]
 
 [[package]]

@@ -35,7 +35,9 @@ dependencies = [
 
 [[package]]
 name = "pluginator"
-version = "0.1.0"
+version = "1.0.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "fbddb84b4e6e46de39bf57d63ce57c45e5fc3843650090f4ce1cf4f3f022641d"
 dependencies = [
  "libloading",
 ]

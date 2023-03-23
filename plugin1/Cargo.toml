@@ -10,4 +10,4 @@ crate-type = ["cdylib"]
 
 [dependencies]
 app = { path = "../app" }
-pluginator = { path = "../../pluginator" }
+pluginator = "1.0.1"
